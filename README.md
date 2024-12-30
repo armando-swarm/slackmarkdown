@@ -2,7 +2,12 @@
 
 [![pkg.go.dev](https://pkg.go.dev/badge/github.com/armando-swarm/slackmarkdown)](https://pkg.go.dev/github.com/armando-swarm/slackmarkdown)
 
-Package `github.com/armando-swarm/slackmarkdown` is a Go library for parsing Markdown text and rendering as HTML.
+Package `github.com/armando-swarm/slackmarkdown` is a Go library for parsing Slack Markdown text and rendering as HTML.
+
+This is a fork of `github.com/gomarkdown/markdown` since our use-case is to styled text from Slack to HTML but they don't conform to CommonMark Syntax and
+`github.com/gomarkdown/markdown` is coupled with CommonMark - i.e. there's no way to modify the parser to treat `*` as `strong` instead of `em`
+
+Everything in this package is the same as `github.com/gomarkdown/markdown` except it now follows Slack's markup syntax for bold, italic, and strikethrough. See `https://slack.com/help/articles/202288908-Format-your-messages`
 
 It's very fast and supports common extensions.
 
