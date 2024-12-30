@@ -1,4 +1,4 @@
-package markdown
+package slackmarkdown
 
 import (
 	"bytes"
@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gomarkdown/markdown/ast"
-	"github.com/gomarkdown/markdown/md"
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/armando-swarm/slackmarkdown/ast"
+	"github.com/armando-swarm/slackmarkdown/md"
+	"github.com/armando-swarm/slackmarkdown/parser"
 )
 
 func TestMd(t *testing.T) {

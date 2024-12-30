@@ -24,7 +24,7 @@ It's also helpful to simply try Markdown out; the [Dingus] [d] is a
 web application that allows you type your own Markdown-formatted text
 and translate it to XHTML.
 
-**Note:** This document is itself written using Markdown; you
+*Note:* This document is itself written using Markdown; you
 can [see the source for it by adding '.text' to the URL] [src].
 
   [s]: /projects/markdown/syntax  "Markdown Syntax"
@@ -39,7 +39,7 @@ by one or more blank lines. (A blank line is any line that looks like a
 blank line -- a line containing nothing spaces or tabs is considered
 blank.) Normal paragraphs should not be intended with spaces or tabs.
 
-Markdown offers two styles of headers: *Setext* and *atx*.
+Markdown offers two styles of headers: _Setext_ and _atx_.
 Setext-style headers for `<h1>` and `<h2>` are created by
 "underlining" with equal signs (`=`) and hyphens (`-`), respectively.
 To create an atx-style header, you put 1-6 hash marks (`#`) at the
@@ -111,11 +111,11 @@ Markdown:
 
 Output:
 
-    <p>Some of these words <em>are emphasized</em>.
+    <p>Some of these words <strong>are emphasized</strong>.
     Some of these words <em>are emphasized also</em>.</p>
     
-    <p>Use two asterisks for <strong>strong emphasis</strong>.
-    Or, if you prefer, <strong>use two underscores instead</strong>.</p>
+    <p>Use two asterisks for <strong>*strong emphasis*</strong>.
+    Or, if you prefer, <em>_use two underscores instead_</em>.</p>
    
 
 
@@ -186,8 +186,8 @@ Output:
 
 ### Links ###
 
-Markdown supports two styles for creating links: *inline* and
-*reference*. With both styles, you use square brackets to delimit the
+Markdown supports two styles for creating links: _inline_ and
+_reference_. With both styles, you use square brackets to delimit the
 text you want to turn into a link.
 
 Inline-style links use parentheses immediately after the link text.
@@ -227,7 +227,7 @@ Output:
     title="MSN Search">MSN</a>.</p>
 
 The title attribute is optional. Link names may contain letters,
-numbers and spaces, but are *not* case sensitive:
+numbers and spaces, but are _not_ case sensitive:
 
     I start my morning with a cup of coffee and
     [The New York Times][NY Times].

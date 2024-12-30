@@ -1,4 +1,4 @@
-package markdown
+package slackmarkdown
 
 import (
 	"bytes"
@@ -7,8 +7,8 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/armando-swarm/slackmarkdown/html"
+	"github.com/armando-swarm/slackmarkdown/parser"
 )
 
 type TestParams struct {

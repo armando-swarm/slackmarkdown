@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/ast"
-	mdhtml "github.com/gomarkdown/markdown/html"
+	"github.com/armando-swarm/slackmarkdown"
+	"github.com/armando-swarm/slackmarkdown/ast"
+	mdhtml "github.com/armando-swarm/slackmarkdown/html"
 
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters/html"
@@ -83,7 +83,7 @@ func codeHighlight() {
 	md := []byte(mds)
 
 	renderer := newCustomizedRender()
-	html := markdown.ToHTML(md, nil, renderer)
+	html := slackmarkdown.ToHTML(md, nil, renderer)
 
 	fmt.Printf("--- Markdown:\n%s\n\n--- HTML:\n%s\n", md, html)
 }

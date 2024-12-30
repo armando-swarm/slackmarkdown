@@ -16,9 +16,9 @@ Customizing parsing and HTML rendering
 You can customize parser and HTML renderer:
 
 	import (
-		"github.com/gomarkdown/markdown/parser"
-		"github.com/gomarkdown/markdown/renderer"
-		"github.com/gomarkdown/markdown"
+		"github.com/armando-swarm/slackmarkdown/parser"
+		"github.com/armando-swarm/slackmarkdown/renderer"
+		"github.com/armando-swarm/slackmarkdown"
 	)
 	extensions := parser.CommonExtensions | parser.AutoHeadingIDs
 	p := parser.NewWithExtensions(extensions)
@@ -32,4 +32,4 @@ You can customize parser and HTML renderer:
 
 For a cmd-line tool see https://github.com/gomarkdown/mdtohtml
 */
-package markdown
+package slackmarkdown

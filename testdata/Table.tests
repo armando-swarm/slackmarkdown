@@ -62,15 +62,15 @@ c | d
 </tbody>
 </table>
 +++
-*a*|__b__|[c](C)|d
+*a*|_b_|[c](C)|d
 ---|---|---|---
 e|f|g|h
 +++
 <table>
 <thead>
 <tr>
-<th><em>a</em></th>
-<th><strong>b</strong></th>
+<th><strong>a</strong></th>
+<th><em>b</em></th>
 <th><a href="C">c</a></th>
 <th>d</th>
 </tr>
@@ -131,7 +131,7 @@ n|o|p
 +++
 a|b|c
 ---|---|---
-*d*|__e__|f
+*d*|_e_|f
 +++
 <table>
 <thead>
@@ -144,8 +144,8 @@ a|b|c
 
 <tbody>
 <tr>
-<td><em>d</em></td>
-<td><strong>e</strong></td>
+<td><strong>d</strong></td>
+<td><em>e</em></td>
 <td>f</td>
 </tr>
 </tbody>

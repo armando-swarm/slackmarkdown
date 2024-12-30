@@ -4,13 +4,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/ast"
+	"github.com/armando-swarm/slackmarkdown"
+	"github.com/armando-swarm/slackmarkdown/ast"
 )
 
 func TestRenderDocument(t *testing.T) {
 	var source = []byte("# title\n* aaa\n* bbb\n* ccc")
-	var input = markdown.Parse(source, nil)
+	var input = slackmarkdown.Parse(source, nil)
 	var expected = "# title\n* aaa\n* bbb\n* ccc\n"
 	testRendering(t, input, expected)
 }
@@ -100,44 +100,44 @@ func TestRenderHTMLBlock(t *testing.T) {
 
 func TestRenderList(t *testing.T) {
 	var source = []byte("* aaa\n* bbb\n* ccc\n* ddd\n")
-	var input = markdown.Parse(source, nil)
+	var input = slackmarkdown.Parse(source, nil)
 	var expected = "* aaa\n* bbb\n* ccc\n* ddd\n"
 	testRendering(t, input, expected)
 
 	source = []byte("+ aaa\n+ bbb\n+ ccc\n+ ddd\n")
-	input = markdown.Parse(source, nil)
+	input = slackmarkdown.Parse(source, nil)
 	expected = "+ aaa\n+ bbb\n+ ccc\n+ ddd\n"
 	testRendering(t, input, expected)
 
 	source = []byte("- aaa\n- bbb\n- ccc\n- ddd\n")
-	input = markdown.Parse(source, nil)
+	input = slackmarkdown.Parse(source, nil)
 	expected = "- aaa\n- bbb\n- ccc\n- ddd\n"
 	testRendering(t, input, expected)
 
 	source = []byte("1. aaa\n2. bbb\n3. ccc\n4. ddd\n")
-	input = markdown.Parse(source, nil)
+	input = slackmarkdown.Parse(source, nil)
 	expected = "1. aaa\n2. bbb\n3. ccc\n4. ddd\n"
 	testRendering(t, input, expected)
 
 	source = []byte("1. aaa\n1. bbb\n1. ccc\n1. ddd\n")
-	input = markdown.Parse(source, nil)
+	input = slackmarkdown.Parse(source, nil)
 	expected = "1. aaa\n2. bbb\n3. ccc\n4. ddd\n"
 	testRendering(t, input, expected)
 
 	source = []byte("1. aaa\n3. bbb\n8. ccc\n1. ddd\n")
-	input = markdown.Parse(source, nil)
+	input = slackmarkdown.Parse(source, nil)
 	expected = "1. aaa\n2. bbb\n3. ccc\n4. ddd\n"
 	testRendering(t, input, expected)
 
 	source = []byte("* aaa\n    * aaa1\n    * aaa2\n* bbb\n* ccc\n* ddd\n")
-	input = markdown.Parse(source, nil)
+	input = slackmarkdown.Parse(source, nil)
 	expected = "* aaa\n    * aaa1\n    * aaa2\n* bbb\n* ccc\n* ddd\n"
 	testRendering(t, input, expected)
 }
 
 func testRendering(t *testing.T, input ast.Node, expected string) {
 	renderer := NewRenderer()
-	result := string(markdown.Render(input, renderer))
+	result := string(slackmarkdown.Render(input, renderer))
 	if strings.Compare(result, expected) != 0 {
 		t.Errorf("[%s] is not equal to [%s]", result, expected)
 	}

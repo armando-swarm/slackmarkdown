@@ -1,4 +1,4 @@
-package markdown
+package slackmarkdown
 
 import (
 	"regexp"
@@ -6,8 +6,8 @@ import (
 
 	"strings"
 
-	"github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/armando-swarm/slackmarkdown/html"
+	"github.com/armando-swarm/slackmarkdown/parser"
 )
 
 func TestEmphasis(t *testing.T) {
@@ -18,7 +18,7 @@ func TestEmphasis(t *testing.T) {
 func TestBug309(t *testing.T) {
 	var tests = []string{
 		`*f*—`,
-		"<p><em>f</em>—</p>\n",
+		"<p><strong>f</strong>—</p>\n",
 	}
 	p := TestParams{}
 	p.extensions = parser.NoIntraEmphasis
@@ -92,68 +92,68 @@ func TestReferenceOverride(t *testing.T) {
 	})
 }
 
-func TestStrong(t *testing.T) {
+func TestStrongAndEm(t *testing.T) {
 	var tests = []string{
 		"nothing inline\n",
 		"<p>nothing inline</p>\n",
 
-		"simple **inline** test\n",
+		"simple *inline* test\n",
 		"<p>simple <strong>inline</strong> test</p>\n",
 
-		"**at the** beginning\n",
+		"*at the* beginning\n",
 		"<p><strong>at the</strong> beginning</p>\n",
 
-		"at the **end**\n",
+		"at the *end*\n",
 		"<p>at the <strong>end</strong></p>\n",
 
-		"**try two** in **one line**\n",
+		"*try two* in *one line*\n",
 		"<p><strong>try two</strong> in <strong>one line</strong></p>\n",
 
-		"over **two\nlines** test\n",
+		"over *two\nlines* test\n",
 		"<p>over <strong>two\nlines</strong> test</p>\n",
 
-		"odd **number of** markers** here\n",
-		"<p>odd <strong>number of</strong> markers** here</p>\n",
+		"odd *number of* markers* here\n",
+		"<p>odd <strong>number of</strong> markers* here</p>\n",
 
-		"odd **number\nof** markers** here\n",
-		"<p>odd <strong>number\nof</strong> markers** here</p>\n",
+		"odd *number\nof* markers* here\n",
+		"<p>odd <strong>number\nof</strong> markers* here</p>\n",
 
-		"simple __inline__ test\n",
-		"<p>simple <strong>inline</strong> test</p>\n",
+		"simple _inline_ test\n",
+		"<p>simple <em>inline</em> test</p>\n",
 
-		"__at the__ beginning\n",
-		"<p><strong>at the</strong> beginning</p>\n",
+		"_at the_ beginning\n",
+		"<p><em>at the</em> beginning</p>\n",
 
-		"at the __end__\n",
-		"<p>at the <strong>end</strong></p>\n",
+		"at the _end_\n",
+		"<p>at the <em>end</em></p>\n",
 
-		"__try two__ in __one line__\n",
-		"<p><strong>try two</strong> in <strong>one line</strong></p>\n",
+		"_try two_ in _one line_\n",
+		"<p><em>try two</em> in <em>one line</em></p>\n",
 
-		"over __two\nlines__ test\n",
-		"<p>over <strong>two\nlines</strong> test</p>\n",
+		"over _two\nlines_ test\n",
+		"<p>over <em>two\nlines</em> test</p>\n",
 
-		"odd __number of__ markers__ here\n",
-		"<p>odd <strong>number of</strong> markers__ here</p>\n",
+		"odd _number of_ markers_ here\n",
+		"<p>odd <em>number of</em> markers_ here</p>\n",
 
-		"odd __number\nof__ markers__ here\n",
-		"<p>odd <strong>number\nof</strong> markers__ here</p>\n",
+		"odd _number\nof_ markers_ here\n",
+		"<p>odd <em>number\nof</em> markers_ here</p>\n",
 
-		"mix of **markers__\n",
-		"<p>mix of **markers__</p>\n",
+		"mix of *markers_\n",
+		"<p>mix of *markers_</p>\n",
 
-		"**`/usr`** : this folder is named `usr`\n",
-		"<p><strong><code>/usr</code></strong> : this folder is named <code>usr</code></p>\n",
+		"_`/usr`_ : this folder is named `usr`\n",
+		"<p><em><code>/usr</code></em> : this folder is named <code>usr</code></p>\n",
 
-		"**`/usr`** :\n\n this folder is named `usr`\n",
-		"<p><strong><code>/usr</code></strong> :</p>\n\n<p>this folder is named <code>usr</code></p>\n",
+		"_`/usr`_ :\n\n this folder is named `usr`\n",
+		"<p><em><code>/usr</code></em> :</p>\n\n<p>this folder is named <code>usr</code></p>\n",
 	}
 	doTestsInline(t, tests)
 }
 
 func TestStrongShort(t *testing.T) {
 	var tests = []string{
-		"**`/usr`** :\n\n this folder is named `usr`\n",
+		"*`/usr`* :\n\n this folder is named `usr`\n",
 		"<p><strong><code>/usr</code></strong> :</p>\n\n<p>this folder is named <code>usr</code></p>\n",
 	}
 	doTestsInline(t, tests)
@@ -161,41 +161,26 @@ func TestStrongShort(t *testing.T) {
 }
 func TestEmphasisMix(t *testing.T) {
 	var tests = []string{
-		"***triple emphasis***\n",
+		"*_triple emphasis_*\n",
 		"<p><strong><em>triple emphasis</em></strong></p>\n",
 
-		"***triple\nemphasis***\n",
+		"*_triple\nemphasis_*\n",
 		"<p><strong><em>triple\nemphasis</em></strong></p>\n",
+	
+		"*_triple emphasis___\n",
+		"<p>*<em>triple emphasis__</em></p>\n",
 
-		"___triple emphasis___\n",
-		"<p><strong><em>triple emphasis</em></strong></p>\n",
-
-		"***triple emphasis___\n",
-		"<p>***triple emphasis___</p>\n",
-
-		"*italics **and bold** end*\n",
+		"_italics *and bold* end_\n",
 		"<p><em>italics <strong>and bold</strong> end</em></p>\n",
 
-		"*italics **and bold***\n",
+		"_italics *and bold*_\n",
 		"<p><em>italics <strong>and bold</strong></em></p>\n",
 
-		"***bold** and italics*\n",
+		"_*bold* and italics_\n",
 		"<p><em><strong>bold</strong> and italics</em></p>\n",
 
-		"*start **bold** and italics*\n",
-		"<p><em>start <strong>bold</strong> and italics</em></p>\n",
-
-		"*__triple emphasis__*\n",
-		"<p><em><strong>triple emphasis</strong></em></p>\n",
-
-		"__*triple emphasis*__\n",
-		"<p><strong><em>triple emphasis</em></strong></p>\n",
-
-		"**improper *nesting** is* bad\n",
-		"<p><strong>improper *nesting</strong> is* bad</p>\n",
-
-		"*improper **nesting* is** bad\n",
-		"<p><em>improper **nesting</em> is** bad</p>\n",
+		"*improper nesting* is* bad\n",
+		"<p><strong>improper nesting</strong> is* bad</p>\n",
 	}
 	doTestsInline(t, tests)
 }
@@ -203,16 +188,28 @@ func TestEmphasisMix(t *testing.T) {
 func TestEmphasisLink(t *testing.T) {
 	var tests = []string{
 		"[first](before) *text[second] (inside)text* [third](after)\n",
-		"<p><a href=\"before\">first</a> <em>text<a href=\"inside\">second</a>text</em> <a href=\"after\">third</a></p>\n",
+		"<p><a href=\"before\">first</a> <strong>text<a href=\"inside\">second</a>text</strong> <a href=\"after\">third</a></p>\n",
 
 		"*incomplete [link] definition*\n",
-		"<p><em>incomplete [link] definition</em></p>\n",
+		"<p><strong>incomplete [link] definition</strong></p>\n",
 
 		"*it's [emphasis*] (not link)\n",
-		"<p><em>it's [emphasis</em>] (not link)</p>\n",
+		"<p><strong>it's [emphasis</strong>] (not link)</p>\n",
 
 		"*it's [emphasis*] and *[asterisk]\n",
-		"<p><em>it's [emphasis</em>] and *[asterisk]</p>\n",
+		"<p><strong>it's [emphasis</strong>] and *[asterisk]</p>\n",
+
+		"[first](before) _text[second] (inside)text_ [third](after)\n",
+		"<p><a href=\"before\">first</a> <em>text<a href=\"inside\">second</a>text</em> <a href=\"after\">third</a></p>\n",
+
+		"_incomplete [link] definition_\n",
+		"<p><em>incomplete [link] definition</em></p>\n",
+
+		"_it's [emphasis_] (not link)\n",
+		"<p><em>it's [emphasis</em>] (not link)</p>\n",
+
+		"_it's [emphasis_] and _[asterisk]\n",
+		"<p><em>it's [emphasis</em>] and _[asterisk]</p>\n",
 	}
 	doTestsInline(t, tests)
 }
@@ -222,26 +219,26 @@ func TestStrikeThrough(t *testing.T) {
 		"nothing inline\n",
 		"<p>nothing inline</p>\n",
 
-		"simple ~~inline~~ test\n",
+		"simple ~inline~ test\n",
 		"<p>simple <del>inline</del> test</p>\n",
 
-		"~~at the~~ beginning\n",
+		"~at the~ beginning\n",
 		"<p><del>at the</del> beginning</p>\n",
 
-		"at the ~~end~~\n",
+		"at the ~end~\n",
 		"<p>at the <del>end</del></p>\n",
 
-		"~~try two~~ in ~~one line~~\n",
+		"~try two~ in ~one line~\n",
 		"<p><del>try two</del> in <del>one line</del></p>\n",
 
-		"over ~~two\nlines~~ test\n",
+		"over ~two\nlines~ test\n",
 		"<p>over <del>two\nlines</del> test</p>\n",
 
-		"odd ~~number of~~ markers~~ here\n",
-		"<p>odd <del>number of</del> markers~~ here</p>\n",
+		"odd ~number of~ markers~ here\n",
+		"<p>odd <del>number of</del> markers~ here</p>\n",
 
-		"odd ~~number\nof~~ markers~~ here\n",
-		"<p>odd <del>number\nof</del> markers~~ here</p>\n",
+		"odd ~number\nof~ markers~ here\n",
+		"<p>odd <del>number\nof</del> markers~ here</p>\n",
 	}
 	doTestsInline(t, tests)
 }
@@ -1295,7 +1292,7 @@ func TestInlineMath(t *testing.T) {
 }
 
 // TODO: not fixed yet. Need to change the logic and update the tests.
-// https://github.com/gomarkdown/markdown/issues/327
+// https://github.com/armando-swarm/slackmarkdown/issues/327
 func TestBug327(t *testing.T) {
 	doTestsParam(t, []string{
 		`[site](https://somesite.com/?"s"(b)h)`,
