@@ -11,7 +11,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/gomarkdown/markdown/ast"
+	"github.com/armando-swarm/slackmarkdown/ast"
 )
 
 // Extensions is a bitmask of enabled parser extensions.

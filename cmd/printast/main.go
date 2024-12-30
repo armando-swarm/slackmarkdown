@@ -6,10 +6,10 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/ast"
-	mdhtml "github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/armando-swarm/slackmarkdown"
+	"github.com/armando-swarm/slackmarkdown/ast"
+	mdhtml "github.com/armando-swarm/slackmarkdown/html"
+	"github.com/armando-swarm/slackmarkdown/parser"
 )
 
 // This prints AST of parsed markdown document.
@@ -39,11 +39,11 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Couldn't open '%s', error: '%s'\n", fileName, err)
 			continue
 		}
-		d = markdown.NormalizeNewlines(d)
+		d = slackmarkdown.NormalizeNewlines(d)
 
 		exts := parser.CommonExtensions // parser.OrderedListStart | parser.NoEmptyLineBeforeBlock
 		p := parser.NewWithExtensions(exts)
-		doc := markdown.Parse(d, p)
+		doc := slackmarkdown.Parse(d, p)
 
 		if flgToHTML {
 			htmlFlags := mdhtml.Smartypants |
@@ -54,7 +54,7 @@ func main() {
 				Flags: htmlFlags,
 			}
 			renderer := mdhtml.NewRenderer(htmlOpts)
-			html := markdown.Render(doc, renderer)
+			html := slackmarkdown.Render(doc, renderer)
 			fmt.Printf("HTML of file '%s':\n%s\n", fileName, string(html))
 
 		} else {

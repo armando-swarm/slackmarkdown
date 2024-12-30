@@ -1,10 +1,10 @@
-package markdown
+package slackmarkdown
 
 import (
 	"bytes"
 	"testing"
 
-	"github.com/gomarkdown/markdown/html"
+	"github.com/armando-swarm/slackmarkdown/html"
 )
 
 func TestEsc(t *testing.T) {

@@ -5,10 +5,10 @@ package main
 import (
 	"os"
 
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/ast"
-	"github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/armando-swarm/slackmarkdown"
+	"github.com/armando-swarm/slackmarkdown/ast"
+	"github.com/armando-swarm/slackmarkdown/html"
+	"github.com/armando-swarm/slackmarkdown/parser"
 
 	"fmt"
 )
@@ -39,7 +39,7 @@ func mdToHTML(md []byte) []byte {
 	opts := html.RendererOptions{Flags: htmlFlags}
 	renderer := html.NewRenderer(opts)
 
-	return markdown.Render(doc, renderer)
+	return slackmarkdown.Render(doc, renderer)
 }
 
 func main() {

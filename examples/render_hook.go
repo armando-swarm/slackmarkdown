@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/ast"
-	"github.com/gomarkdown/markdown/html"
+	"github.com/armando-swarm/slackmarkdown"
+	"github.com/armando-swarm/slackmarkdown/ast"
+	"github.com/armando-swarm/slackmarkdown/html"
 )
 
 // an actual rendering of Paragraph is more complicated
@@ -42,7 +42,7 @@ func renderHookExmple() {
 	md := []byte(mds)
 
 	renderer := newCustomizedRender()
-	html := markdown.ToHTML(md, nil, renderer)
+	html := slackmarkdown.ToHTML(md, nil, renderer)
 
 	fmt.Printf("--- Markdown:\n%s\n\n--- HTML:\n%s\n", md, html)
 }

@@ -4,31 +4,31 @@ nothing inline
 +++
 simple *inline* test
 +++
-<p>simple <em>inline</em> test</p>
+<p>simple <strong>inline</strong> test</p>
 +++
 *at the* beginning
 +++
-<p><em>at the</em> beginning</p>
+<p><strong>at the</strong> beginning</p>
 +++
 at the *end*
 +++
-<p>at the <em>end</em></p>
+<p>at the <strong>end</strong></p>
 +++
 *try two* in *one line*
 +++
-<p><em>try two</em> in <em>one line</em></p>
+<p><strong>try two</strong> in <strong>one line</strong></p>
 +++
 over *two\nlines* test
 +++
-<p>over <em>two\nlines</em> test</p>
+<p>over <strong>two\nlines</strong> test</p>
 +++
 odd *number of* markers* here
 +++
-<p>odd <em>number of</em> markers* here</p>
+<p>odd <strong>number of</strong> markers* here</p>
 +++
 odd *number\nof* markers* here
 +++
-<p>odd <em>number\nof</em> markers* here</p>
+<p>odd <strong>number\nof</strong> markers* here</p>
 +++
 simple _inline_ test
 +++
@@ -64,4 +64,4 @@ mix of *markers_
 +++
 *What is A\* algorithm?*
 +++
-<p><em>What is A* algorithm?</em></p>
+<p><strong>What is A* algorithm?</strong></p>

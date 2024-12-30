@@ -1,12 +1,12 @@
-package markdown
+package slackmarkdown
 
 import (
 	"io"
 	"testing"
 
-	"github.com/gomarkdown/markdown/ast"
-	"github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/armando-swarm/slackmarkdown/ast"
+	"github.com/armando-swarm/slackmarkdown/html"
+	"github.com/armando-swarm/slackmarkdown/parser"
 )
 
 func renderHookEmpty(w io.Writer, node ast.Node, entering bool) (ast.WalkStatus, bool) {

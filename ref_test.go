@@ -1,11 +1,11 @@
-package markdown
+package slackmarkdown
 
 import (
 	"io/ioutil"
 	"path/filepath"
 	"testing"
 
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/armando-swarm/slackmarkdown/parser"
 )
 
 // Markdown 1.0.3 reference tests

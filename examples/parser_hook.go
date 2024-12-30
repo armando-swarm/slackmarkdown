@@ -5,10 +5,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/ast"
-	"github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/armando-swarm/slackmarkdown"
+	"github.com/armando-swarm/slackmarkdown/ast"
+	"github.com/armando-swarm/slackmarkdown/html"
+	"github.com/armando-swarm/slackmarkdown/parser"
 
 	"bytes"
 	"io"
@@ -92,7 +92,7 @@ func parserHookExample() {
 	doc := p.Parse([]byte(md))
 
 	renderer := newGalleryRender()
-	html := markdown.Render(doc, renderer)
+	html := slackmarkdown.Render(doc, renderer)
 
 	fmt.Printf("--- Markdown:\n%s\n\n--- HTML:\n%s\n", md, html)
 }

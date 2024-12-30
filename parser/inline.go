@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/gomarkdown/markdown/ast"
+	"github.com/armando-swarm/slackmarkdown/ast"
 )
 
 // Parsing of inline elements
@@ -94,30 +94,6 @@ func emphasis(p *Parser, data []byte, offset int) (int, ast.Node) {
 		}
 
 		return ret + 1, node
-	}
-
-	if n > 3 && data[1] == c && data[2] != c {
-		if IsSpace(data[2]) {
-			return 0, nil
-		}
-		ret, node := helperDoubleEmphasis(p, data[2:], c)
-		if ret == 0 {
-			return 0, nil
-		}
-
-		return ret + 2, node
-	}
-
-	if n > 4 && data[1] == c && data[2] == c && data[3] != c {
-		if c == '~' || IsSpace(data[3]) {
-			return 0, nil
-		}
-		ret, node := helperTripleEmphasis(p, data, 3, c)
-		if ret == 0 {
-			return 0, nil
-		}
-
-		return ret + 3, node
 	}
 
 	return 0, nil
@@ -1216,6 +1192,16 @@ func helperEmphasis(p *Parser, data []byte, c byte) (int, ast.Node) {
 				}
 			}
 
+			if string(c) == "*" {
+				emph := &ast.Strong{}
+				p.Inline(emph, data[:i])
+				return i + 1, emph
+			} else if p.extensions&Strikethrough != 0 && string(c) == "~" {
+				emph := &ast.Del{}
+				p.Inline(emph, data[:i])
+				return i + 1, emph
+			}
+
 			emph := &ast.Emph{}
 			p.Inline(emph, data[:i])
 			return i + 1, emph
@@ -1230,72 +1216,72 @@ func helperEmphasis(p *Parser, data []byte, c byte) (int, ast.Node) {
 	return 0, nil
 }
 
-func helperDoubleEmphasis(p *Parser, data []byte, c byte) (int, ast.Node) {
-	i := 0
+// func helperDoubleEmphasis(p *Parser, data []byte, c byte) (int, ast.Node) {
+// 	i := 0
 
-	for i < len(data) {
-		length := helperFindEmphChar(data[i:], c)
-		if length == 0 {
-			return 0, nil
-		}
-		i += length
+// 	for i < len(data) {
+// 		length := helperFindEmphChar(data[i:], c)
+// 		if length == 0 {
+// 			return 0, nil
+// 		}
+// 		i += length
 
-		if i+1 < len(data) && data[i] == c && data[i+1] == c && i > 0 && !IsSpace(data[i-1]) {
-			var node ast.Node = &ast.Strong{}
-			if c == '~' {
-				node = &ast.Del{}
-			}
-			p.Inline(node, data[:i])
-			return i + 2, node
-		}
-		i++
-	}
-	return 0, nil
-}
+// 		if i+1 < len(data) && data[i] == c && data[i+1] == c && i > 0 && !IsSpace(data[i-1]) {
+// 			var node ast.Node = &ast.Strong{}
+// 			if c == '~' {
+// 				node = &ast.Del{}
+// 			}
+// 			p.Inline(node, data[:i])
+// 			return i + 2, node
+// 		}
+// 		i++
+// 	}
+// 	return 0, nil
+// }
 
-func helperTripleEmphasis(p *Parser, data []byte, offset int, c byte) (int, ast.Node) {
-	i := 0
-	origData := data
-	data = data[offset:]
+// func helperTripleEmphasis(p *Parser, data []byte, offset int, c byte) (int, ast.Node) {
+// 	i := 0
+// 	origData := data
+// 	data = data[offset:]
 
-	for i < len(data) {
-		length := helperFindEmphChar(data[i:], c)
-		if length == 0 {
-			return 0, nil
-		}
-		i += length
+// 	for i < len(data) {
+// 		length := helperFindEmphChar(data[i:], c)
+// 		if length == 0 {
+// 			return 0, nil
+// 		}
+// 		i += length
 
-		// skip whitespace preceded symbols
-		if data[i] != c || IsSpace(data[i-1]) {
-			continue
-		}
+// 		// skip whitespace preceded symbols
+// 		if data[i] != c || IsSpace(data[i-1]) {
+// 			continue
+// 		}
 
-		switch {
-		case i+2 < len(data) && data[i+1] == c && data[i+2] == c:
-			// triple symbol found
-			strong := &ast.Strong{}
-			em := &ast.Emph{}
-			ast.AppendChild(strong, em)
-			p.Inline(em, data[:i])
-			return i + 3, strong
-		case i+1 < len(data) && data[i+1] == c:
-			// double symbol found, hand over to emph1
-			length, node := helperEmphasis(p, origData[offset-2:], c)
-			if length == 0 {
-				return 0, nil
-			}
-			return length - 2, node
-		default:
-			// single symbol found, hand over to emph2
-			length, node := helperDoubleEmphasis(p, origData[offset-1:], c)
-			if length == 0 {
-				return 0, nil
-			}
-			return length - 1, node
-		}
-	}
-	return 0, nil
-}
+// 		switch {
+// 		case i+2 < len(data) && data[i+1] == c && data[i+2] == c:
+// 			// triple symbol found
+// 			strong := &ast.Strong{}
+// 			em := &ast.Emph{}
+// 			ast.AppendChild(strong, em)
+// 			p.Inline(em, data[:i])
+// 			return i + 3, strong
+// 		case i+1 < len(data) && data[i+1] == c:
+// 			// double symbol found, hand over to emph1
+// 			length, node := helperEmphasis(p, origData[offset-2:], c)
+// 			if length == 0 {
+// 				return 0, nil
+// 			}
+// 			return length - 2, node
+// 		default:
+// 			// single symbol found, hand over to emph2
+// 			length, node := helperDoubleEmphasis(p, origData[offset-1:], c)
+// 			if length == 0 {
+// 				return 0, nil
+// 			}
+// 			return length - 1, node
+// 		}
+// 	}
+// 	return 0, nil
+// }
 
 // math handle inline math wrapped with '$'
 func math(p *Parser, data []byte, offset int) (int, ast.Node) {

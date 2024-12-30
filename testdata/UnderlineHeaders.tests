@@ -59,7 +59,7 @@ Another header
 Header with *inline*
 =====
 +++
-<h1>Header with <em>inline</em></h1>
+<h1>Header with <strong>inline</strong></h1>
 +++
 *   List
     * Sublist

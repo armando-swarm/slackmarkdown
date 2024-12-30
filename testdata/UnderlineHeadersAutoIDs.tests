@@ -51,7 +51,7 @@ Another header
 Header with *inline*
 =====
 +++
-<h1 id="header-with-inline">Header with <em>inline</em></h1>
+<h1 id="header-with-inline">Header with <strong>inline</strong></h1>
 +++
 Paragraph
 

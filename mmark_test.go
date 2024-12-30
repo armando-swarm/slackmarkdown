@@ -1,4 +1,4 @@
-package markdown
+package slackmarkdown
 
 import (
 	"bytes"
@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/armando-swarm/slackmarkdown/parser"
 )
 
 type testData struct {
