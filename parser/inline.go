@@ -704,13 +704,44 @@ func leftAngle(p *Parser, data []byte, offset int) (int, ast.Node) {
 		return end, nil
 	}
 	link := uLink.Bytes()
+	linkContent := bytes.Split(link, []byte("|"))
+	var linkUrl []byte
+
+	for _, b := range linkContent[0] {
+		if !IsSpace(b) {
+			linkUrl = append(linkUrl, b)
+		}
+	}
+
+	var linkText []byte
+	var hasLinkText, firstNonSpaceFound bool
+	if len(linkContent) > 1 {
+		hasLinkText = true
+
+		for _, b := range linkContent[1] {
+			if !firstNonSpaceFound && IsSpace(b) {
+				continue
+			}
+			firstNonSpaceFound = true
+			linkText = append(linkText, b)
+		}
+
+	} else {
+		linkText = linkUrl
+	}
 	node := &ast.Link{
-		Destination: link,
+		Destination: linkUrl,
 	}
 	if altype == emailAutolink {
-		node.Destination = append([]byte("mailto:"), link...)
+		node.Destination = append([]byte("mailto:"), linkUrl...)
+		ast.AppendChild(node, newTextNode(stripMailto(linkText)))
+	} else if hasLinkText {
+		// start = the entire url + the separator + the character after it
+		// end = the character before the closing >
+		p.Inline(node, stripMailto(linkText))
+	} else {
+		ast.AppendChild(node, newTextNode(stripMailto(linkText)))
 	}
-	ast.AppendChild(node, newTextNode(stripMailto(link)))
 	return end, node
 }
 
@@ -1027,16 +1058,39 @@ func tagLength(data []byte) (autolink autolinkType, end int) {
 		autolink = notAutolink
 	case autolink != notAutolink:
 		j = i
-
+		var foundSeparator, firstSpaceFound bool
 		for i < len(data) {
 			if data[i] == '\\' {
 				i += 2
-			} else if data[i] == '>' || data[i] == '\'' || data[i] == '"' || IsSpace(data[i]) {
+			} else if data[i] == '>' || data[i] == '\'' || data[i] == '"' {
 				break
+			} else if IsSpace(data[i]) {
+				// space doesnt matter past the separator
+				if foundSeparator {
+					i++
+					continue
+				}
+
+				// benefit of the doubt. if the sequence of spaces is terminated prior to the terminator, then it's invalid. but if it's the first
+				// space in the sequence, we'll continue except if the character before the current space is not a space
+				if !firstSpaceFound {
+					firstSpaceFound = true
+					i++
+					continue
+				}
+
+				// intentionally not an else if
+				if i > 0 && !IsSpace(data[i-1]) {
+					break
+				}
+
+				i++
+			} else if data[i] == '|' { // in slack the format is <url|text>. Between the | separator spaces are ok
+				foundSeparator = true
+				i++
 			} else {
 				i++
 			}
-
 		}
 
 		if i >= len(data) {

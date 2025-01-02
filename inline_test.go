@@ -166,7 +166,7 @@ func TestEmphasisMix(t *testing.T) {
 
 		"*_triple\nemphasis_*\n",
 		"<p><strong><em>triple\nemphasis</em></strong></p>\n",
-	
+
 		"*_triple emphasis___\n",
 		"<p>*<em>triple emphasis__</em></p>\n",
 
@@ -791,6 +791,30 @@ func TestAutoLink(t *testing.T) {
 
 		"<a href=\"https://fancy.com\">https://fancy.com</a>\n",
 		"<p><a href=\"https://fancy.com\">https://fancy.com</a></p>\n",
+
+		"a secure <https://link.org|with text>\n",
+		"<p>a secure <a href=\"https://link.org\">with text</a></p>\n",
+
+		"a secure <https://link.org   |with text>\n",
+		"<p>a secure <a href=\"https://link.org\">with text</a></p>\n",
+
+		"a secure <https://link.org|   with text>\n",
+		"<p>a secure <a href=\"https://link.org\">with text</a></p>\n",
+
+		"a secure <https://link.org   |   with text>\n",
+		"<p>a secure <a href=\"https://link.org\">with text</a></p>\n",
+
+		"a secure <https://link.org|with *text*>\n",
+		"<p>a secure <a href=\"https://link.org\">with <strong>text</strong></a></p>\n",
+
+		"a secure <https://link.org   |with *text*>\n",
+		"<p>a secure <a href=\"https://link.org\">with <strong>text</strong></a></p>\n",
+
+		"a secure <https://link.org|   with *text*>\n",
+		"<p>a secure <a href=\"https://link.org\">with <strong>text</strong></a></p>\n",
+
+		"a secure <https://link.org   |   with *text*>\n",
+		"<p>a secure <a href=\"https://link.org\">with <strong>text</strong></a></p>\n",
 	}
 	doLinkTestsInline(t, tests)
 }
