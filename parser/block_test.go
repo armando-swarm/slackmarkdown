@@ -67,7 +67,7 @@ func TestRect(t *testing.T) {
 	p := NewWithExtensions(CommonExtensions)
 	doc := p.Parse([]byte(input))
 	got := astToString(doc)
-	exp := "Paragraph\n  Text\n  HTMLSpan '<rect>'\n  Text\n  Emph\n    Text 'emph'\n  Text\n  HTMLSpan '</rect>'\n"
+	exp := "Paragraph\n  Text\n  HTMLSpan '<rect>'\n  Text\n  Strong\n    Text 'emph'\n  Text\n  HTMLSpan '</rect>'\n"
 	if got != exp {
 		t.Errorf("\nInput   [%#v]\nExpected[%#v]\nGot     [%#v]\n",
 			input, exp, got)
